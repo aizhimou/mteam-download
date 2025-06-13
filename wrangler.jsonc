@@ -9,6 +9,14 @@
 	"compatibility_date": "2025-06-12",
 	"observability": {
 		"enabled": true
+	},
+	"vars": {
+		"secrets": [
+			"mtApiKey",
+			"qbHost",
+			"qbUsername",
+			"qbPassword"
+		]
 	}
 	/**
 	 * Smart Placement

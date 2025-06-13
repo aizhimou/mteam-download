@@ -7,17 +7,14 @@ const commonHeaders = {
 import { selectBestTorrent } from './torrentStrategies';
 
 // 验证必要参数
-function validateParams(keyword, resourceType, strategy) {
-  console.log('输入参数keyword', keyword);
-  console.log('输入参数resourceType', resourceType);
-  console.log('输入参数strategy', strategy);
+function validateParams(keyword) {
 
-  if (!keyword || !resourceType || !strategy) {
+  if (!keyword) {
     return {
       isValid: false,
       response: new Response(JSON.stringify({ 
         success: false, 
-        message: '缺少必要参数' 
+        message: '缺少必要参数 keyword' 
       }), {
         status: 400,
         headers: commonHeaders
@@ -104,15 +101,13 @@ async function qbLogin(qbHost, qbUsername, qbPassword) {
 }
 
 // 添加种子到qBittorrent
-async function addToQBittorrent(qbHost, downloadUrl, resourceType, cookies) {
+async function addToQBittorrent(qbHost, downloadUrl, category, cookies) {
   const params = new URLSearchParams();
   params.append('urls', downloadUrl);
-  params.append('category', resourceType);
+  if (category) {
+    params.append('category', category);
+  }
   params.append('autoTMM', true);
-
-  console.log('下载参数 urls', downloadUrl);
-  console.log('下载参数 category', resourceType);
-  console.log('下载参数 autoTMM', true);
 
   const addResponse = await fetch(`${qbHost}/api/v2/torrents/add`, {
     method: 'POST',
@@ -139,10 +134,10 @@ export default {
     const qbPassword = env.qbPassword;
 
     try {
-      const { keyword, resourceType, strategy } = await request.json();
+      const { keyword, category, strategy } = await request.json();
 
       // 步骤1: 验证参数
-      const validation = validateParams(keyword, resourceType, strategy);
+      const validation = validateParams(keyword);
       if (!validation.isValid) {
         return validation.response;
       }
@@ -176,7 +171,7 @@ export default {
       const cookies = await qbLogin(qbHost, qbUsername, qbPassword);
 
       // 步骤6: 添加种子
-      await addToQBittorrent(qbHost, downloadUrl, resourceType, cookies);
+      await addToQBittorrent(qbHost, downloadUrl, category, cookies);
 
       // 步骤7: 返回结果
       return new Response(JSON.stringify({
