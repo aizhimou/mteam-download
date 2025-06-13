@@ -12,7 +12,7 @@
 ## 使用说明
 
 ### 一键部署到 Cloudflare Worker
-[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?repo=https://github.com/aizhimou/mteam-download)
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/aizhimou/mteam-download)
 
 ### 部署时要配置的环境变量
 - mtApiKey: [M-Team](https://kp.m-team.cc/) 的密钥，在 控制台 -> 实验室 -> 存取令牌 中创建
