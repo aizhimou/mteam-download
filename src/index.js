@@ -25,7 +25,7 @@ function validateParams(keyword) {
 }
 
 // 搜索M-Team种子
-async function searchMTorrents(keyword, mtApiKey) {
+async function searchMTorrents(keyword, mtApiKey, mode) {
   const searchResponse = await fetch('https://api.m-team.cc/api/torrent/search', {
     method: 'POST',
     headers: {
@@ -35,6 +35,7 @@ async function searchMTorrents(keyword, mtApiKey) {
     },
     body: JSON.stringify({
       keyword: keyword,
+      mode: mode,
       pageNumber: "1",
       pageSize: "100"
     })
@@ -143,7 +144,13 @@ export default {
       }
 
       // 步骤2: 搜索种子
-      const torrents = await searchMTorrents(keyword, mtApiKey);
+      // 种子搜索类型
+      let mode = 'normal';
+      // 如果category包含'AV'，不区分大小写，则将 mode 设置为 adult
+      if (category.toUpperCase().includes('AV')) {
+        mode = 'adult';
+      }
+      const torrents = await searchMTorrents(keyword, mtApiKey, mode);
       if (!torrents || torrents.length === 0) {
         return new Response(JSON.stringify({ 
           success: false, 
