@@ -105,9 +105,7 @@ async function qbLogin(qbHost, qbUsername, qbPassword) {
 async function addToQBittorrent(qbHost, downloadUrl, category, cookies) {
   const params = new URLSearchParams();
   params.append('urls', downloadUrl);
-  if (category) {
-    params.append('category', category);
-  }
+  params.append('category', category);
   params.append('autoTMM', true);
 
   const addResponse = await fetch(`${qbHost}/api/v2/torrents/add`, {
