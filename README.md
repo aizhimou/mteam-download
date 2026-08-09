@@ -57,3 +57,4 @@ curl -X "POST" "http://mteam-download.xxxx.workers.dev" \
 
 安装后记得修改快捷指令中调用的 API 地址为你自己部署的 Cloudflare Worker 地址
 ![快捷指令调用API地址](/shortcut/IMG_9381.jpg)
+
